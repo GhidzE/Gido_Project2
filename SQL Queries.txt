@@ -1,0 +1,53 @@
+
+SQL Queries:
+
+=========================================================================
+For Data Analysis and Exploration
+=========================================================================
+
+-- Example SQL query to select top 10 rows
+SELECT *
+FROM table_name
+LIMIT 10;
+
+-- Example SQL query to calculate average values
+SELECT AVG(column_name)
+FROM table_name;
+
+
+-- Display the names of the unique launch sites in the space mission
+%%sql
+SELECT DISTINCT "Launch_Site" FROM SPACEXTABLE;
+
+
+-- Display 5 records where launch sites begin with the string 'CCA'
+%%sql
+SELECT * FROM SPACEXTABLE WHERE Launch_Site LIKE 'CCA%' LIMIT 5;
+
+
+-- Display the total payload mass carried by boosters launched by NASA (CRS)
+%%sql
+SELECT SUM(PAYLOAD_MASS__KG_) AS Total_Payload_Mass_NASA_CRS
+FROM SPACEXTABLE
+WHERE Customer = 'NASA (CRS)';
+
+
+-- Display average payload mass carried by booster version F9 v1.1
+%%sql
+SELECT AVG(PAYLOAD_MASS__KG_) AS Average_Payload_Mass_F9_v1_1
+FROM SPACEXTABLE
+WHERE Booster_Version = 'F9 v1.1';
+
+
+-- List the date when the first succesful landing outcome in ground pad was acheived.
+%%sql
+SELECT MIN(Date) AS First_Successful_Landing_Date
+FROM SPACEXTABLE
+WHERE "Landing_Outcome" LIKE 'Success (ground pad)%';
+
+
+-- List the names of the booster_versions which have carried the maximum payload mass. Using a subquery
+%%sql
+SELECT Booster_Version
+FROM SPACEXTABLE
+WHERE PAYLOAD_MASS__KG_ = (SELECT MAX(PAYLOAD_MASS__KG_) FROM SPACEXTABLE);
